@@ -1,1 +1,1 @@
-ln -s ha-norwegiantide/custom_components/norwegiantide/ norwegiantide
+ln -s ha-norwegiantide/custom_components/norwegiantide_lite/ norwegiantide_lite

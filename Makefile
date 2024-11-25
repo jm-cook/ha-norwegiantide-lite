@@ -1,7 +1,7 @@
 __VERSION__ = "0.1.2"
 
 bump:
-	bump2version --allow-dirty --current-version $(__VERSION__) patch Makefile custom_components/norwegiantide/const.py custom_components/norwegiantide/manifest.json
+	bump2version --allow-dirty --current-version $(__VERSION__) patch Makefile custom_components/norwegiantide_lite/const.py custom_components/norwegiantide_lite/manifest.json
 
 lint:
 	isort custom_components

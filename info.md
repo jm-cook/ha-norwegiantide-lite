@@ -1,6 +1,5 @@
 # Norwegian Tide
-[![Buy Me A Coffee](https://img.shields.io/badge/support-buymeacoffee-222222.svg?style=flat-square)](https://www.buymeacoffee.com/tmjo)
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs) ![Maintenance](https://img.shields.io/maintenance/yes/2021.svg)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs) ![Maintenance](https://img.shields.io/maintenance/yes/2024.svg)
 
 {% if pending_update %}
 ## New version is available
@@ -26,9 +25,6 @@ Use the integration as you please, but I highly recommend to take a look at the 
 
 ![apexchart-card](img/norwegiantide_apexchart.png "apexchart-card")
 
-The camera entity can also be used for UI since it provides a nice plot using Matplotlib, but I personally prefer the Apexchart-card since it provides more dynamics. The camera on the other hand can be handy if you would like to send notifications with an included forecast image/plot. It will look something like this:
-
-![camera entity](img/norwegiantide_cam.png "camera")
 
 More detailed description will follow, but worth mentioning:
  - Prediction: A calculated prediction for the location
@@ -39,7 +35,7 @@ If you are curious about specific details and definitions, please see [www.sehav
 
 The main sensor will keep the current forecast value as state and will contain all or most data as attributes. The other entities will contain more specific data according to their name.
 
-For further information, see [README](https://github.com/tmjo/ha-norwegiantide)
+For further information, see [README](https://github.com/jm-cook/ha-norwegiantide-lite)
 
 ## License
 MIT © [Tor Magne Johannessen][tmjo]. **All data is ©[Norwegian Mapping Authority (Kartverket)](https://kartverket.no/en/)**.

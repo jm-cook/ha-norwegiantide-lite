@@ -4,13 +4,13 @@ from homeassistant.const import DEVICE_CLASS_TIMESTAMP, LENGTH_CENTIMETERS, TIME
 from .api import CONST_DIR_DEFAULT
 
 # Base component constants
-NAME = "Norwegian Tide"
-DOMAIN = "norwegiantide"
+NAME = "Norwegian Tide Lite"
+DOMAIN = "norwegiantide_lite"
 DOMAIN_DATA = f"{DOMAIN}_data"
 VERSION = "0.1.1"
 ATTRIBUTION = "Data from ©Kartverket (www.kartverket.no)"
 MANUFACTURER = f"{NAME}"
-ISSUE_URL = "https://github.com/tmjo/ha-norwegiantide/issues"
+ISSUE_URL = "https://github.com/jm-cook/ha-norwegiantide-lite/issues"
 
 # Platforms
 BINARY_SENSOR = "binary_sensor"

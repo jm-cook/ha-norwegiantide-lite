@@ -11,8 +11,8 @@ from typing import Optional
 
 import pytz
 import aiohttp
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
+# import matplotlib.pyplot as plt
+# import matplotlib.dates as mdates
 import numpy as np
 import datetime as dt
 import os, sys
@@ -144,10 +144,10 @@ class NorwegianTideApiClient:
         self.current_observation = self.getCurrentDataObservation()
         self.data = self.getDataAll()
 
-        try:
-            self.plot_tidedata()
-        except Exception as e:  # pylint: disable=broad-except
-            _LOGGER.warning(f"Error processing tide plot: {e}")
+        # try:
+        #     self.plot_tidedata()
+        # except Exception as e:  # pylint: disable=broad-except
+        #     _LOGGER.warning(f"Error processing tide plot: {e}")
 
         return {
             API_PLACE: self.getLocationPlace(),
@@ -476,113 +476,113 @@ class NorwegianTideApiClient:
         except:
             return None
 
-    def plot_tidedata(
-        self, filename=None, show=False, xlength: timedelta = timedelta(hours=36)
-    ):
-
-        _LOGGER.debug("Creating plot")
-        x = []
-        y1 = []
-        y2 = []
-        y3 = []
-        for data in self.data:
-            x.append(data.get("datetime"))
-            y1.append(float(data.get(API_FORECAST)))
-            y2.append(float(data.get(API_PREDICTION)))
-            y3.append(float(data.get(API_OBSERVATION)))
-
-        # Min/max/now
-        ymin = min(y1 + y2 + y3)
-        ymax = max(y1 + y2 + y3)
-        now = dt_now()
-
-        # Plot the data
-        fig, ax = plt.subplots(1)
-        ax.plot(x, y1, label=API_FORECAST, color="green", linewidth=3)
-        ax.legend()
-        ax.plot(x, y2, label=API_PREDICTION, color="darkorange", linewidth=3)
-        ax.legend()
-        ax.plot(x, y3, label=API_OBSERVATION, color="blue", linewidth=3)
-        ax.legend()
-
-        # Line for 'now' and annotations current value and timestamp
-        plt.axvline(x=now, color="red", linestyle="dashed", linewidth=1)
-        plt.text(
-            now,
-            -5,
-            f" Forecast {self.current_data.get(API_FORECAST)}cm",
-            color="red",
-            fontsize=8,
-        )
-        plt.text(
-            now,
-            -9,
-            f" {now.strftime('%d.%m.%y %H:%M')}",
-            color="red",
-            fontsize=8,
-        )
-
-        # Add high-low timestamps on plot
-        self.plot_add_highlow(plt, self.highlow, color="darkorange", fontsize=8)
-
-        # Formatting
-        plt.gcf().autofmt_xdate()
-        ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M", tz=now.tzinfo))
-        ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=120))
-        ax.xaxis.set_minor_locator(mdates.MinuteLocator(interval=60))
-        ax.tick_params(axis="x", labelsize=8)
-        xstart = x[0] - timedelta(hours=1, minutes=x[0].minute)
-        ax.set_xlim(xstart, xstart + xlength)
-        ax.set(
-            title=f"Tide for {self.place} ({self.tide_state_full}ing)",
-            ylabel="Waterlevel [cm]",
-        )
-        plt.xticks(rotation=90, ha="center")
-        _LOGGER.debug(f"Plotting from: {xstart} to {xstart+xlength}")
-
-        # Custom scaling
-        ylim_min = ymin if ymin < -10 else -10
-        ylim_max = ymax if ymax > 140 else 140
-        ax.set_ylim([ylim_min, ylim_max])
-
-        # Add a legend
-        # plt.legend(bbox_to_anchor=(1, 1), loc="upper left")
-        # plt.legend()  # => removed, put on ax instead - avoid No artists with labels found to put in legend. Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-
-        # Save image
-        if filename is None:
-            filename = os.path.join(self.output_dir, self.file_image)
-
-        _LOGGER.debug(f"Saving image {filename}.")
-        plt.savefig(filename)
-
-        # Show
-        if show:
-            plt.show()
-        plt.close()
-
-    def plot_add_highlow(self, plt, highlow=None, color="darkorange", fontsize=8):
-        if highlow is None:
-            highlow = self.highlow
-
-        for data in highlow:
-            t = data.get("time")
-            v = data.get("value")
-            f = data.get("flag")
-            if f == "high":
-                addpos = 5
-            else:
-                addpos = 20
-
-            plt.text(
-                t,
-                float(v) + addpos,
-                f"{dt_strftime(t, '%H:%M')}\n{v}cm",
-                color=color,
-                ha="center",
-                rotation=90,
-                fontsize=fontsize,
-            )
+    # def plot_tidedata(
+    #     self, filename=None, show=False, xlength: timedelta = timedelta(hours=36)
+    # ):
+    #
+    #     _LOGGER.debug("Creating plot")
+    #     x = []
+    #     y1 = []
+    #     y2 = []
+    #     y3 = []
+    #     for data in self.data:
+    #         x.append(data.get("datetime"))
+    #         y1.append(float(data.get(API_FORECAST)))
+    #         y2.append(float(data.get(API_PREDICTION)))
+    #         y3.append(float(data.get(API_OBSERVATION)))
+    #
+    #     # Min/max/now
+    #     ymin = min(y1 + y2 + y3)
+    #     ymax = max(y1 + y2 + y3)
+    #     now = dt_now()
+    #
+    #     # Plot the data
+    #     fig, ax = plt.subplots(1)
+    #     ax.plot(x, y1, label=API_FORECAST, color="green", linewidth=3)
+    #     ax.legend()
+    #     ax.plot(x, y2, label=API_PREDICTION, color="darkorange", linewidth=3)
+    #     ax.legend()
+    #     ax.plot(x, y3, label=API_OBSERVATION, color="blue", linewidth=3)
+    #     ax.legend()
+    #
+    #     # Line for 'now' and annotations current value and timestamp
+    #     plt.axvline(x=now, color="red", linestyle="dashed", linewidth=1)
+    #     plt.text(
+    #         now,
+    #         -5,
+    #         f" Forecast {self.current_data.get(API_FORECAST)}cm",
+    #         color="red",
+    #         fontsize=8,
+    #     )
+    #     plt.text(
+    #         now,
+    #         -9,
+    #         f" {now.strftime('%d.%m.%y %H:%M')}",
+    #         color="red",
+    #         fontsize=8,
+    #     )
+    #
+    #     # Add high-low timestamps on plot
+    #     self.plot_add_highlow(plt, self.highlow, color="darkorange", fontsize=8)
+    #
+    #     # Formatting
+    #     plt.gcf().autofmt_xdate()
+    #     ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M", tz=now.tzinfo))
+    #     ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=120))
+    #     ax.xaxis.set_minor_locator(mdates.MinuteLocator(interval=60))
+    #     ax.tick_params(axis="x", labelsize=8)
+    #     xstart = x[0] - timedelta(hours=1, minutes=x[0].minute)
+    #     ax.set_xlim(xstart, xstart + xlength)
+    #     ax.set(
+    #         title=f"Tide for {self.place} ({self.tide_state_full}ing)",
+    #         ylabel="Waterlevel [cm]",
+    #     )
+    #     plt.xticks(rotation=90, ha="center")
+    #     _LOGGER.debug(f"Plotting from: {xstart} to {xstart+xlength}")
+    #
+    #     # Custom scaling
+    #     ylim_min = ymin if ymin < -10 else -10
+    #     ylim_max = ymax if ymax > 140 else 140
+    #     ax.set_ylim([ylim_min, ylim_max])
+    #
+    #     # Add a legend
+    #     # plt.legend(bbox_to_anchor=(1, 1), loc="upper left")
+    #     # plt.legend()  # => removed, put on ax instead - avoid No artists with labels found to put in legend. Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+    #
+    #     # Save image
+    #     if filename is None:
+    #         filename = os.path.join(self.output_dir, self.file_image)
+    #
+    #     _LOGGER.debug(f"Saving image {filename}.")
+    #     plt.savefig(filename)
+    #
+    #     # Show
+    #     if show:
+    #         plt.show()
+    #     plt.close()
+    #
+    # def plot_add_highlow(self, plt, highlow=None, color="darkorange", fontsize=8):
+    #     if highlow is None:
+    #         highlow = self.highlow
+    #
+    #     for data in highlow:
+    #         t = data.get("time")
+    #         v = data.get("value")
+    #         f = data.get("flag")
+    #         if f == "high":
+    #             addpos = 5
+    #         else:
+    #             addpos = 20
+    #
+    #         plt.text(
+    #             t,
+    #             float(v) + addpos,
+    #             f"{dt_strftime(t, '%H:%M')}\n{v}cm",
+    #             color=color,
+    #             ha="center",
+    #             rotation=90,
+    #             fontsize=fontsize,
+    #         )
 
 
 def parsetimedelta(s):
@@ -654,7 +654,7 @@ async def main():
     print(tidedata.get("location_details", None))
     print("******************************************\n\n\n")
     await session.close()
-    tide.plot_tidedata(show=args.show)
+    # tide.plot_tidedata(show=args.show)
 
 
 if __name__ == "__main__":

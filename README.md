@@ -1,13 +1,14 @@
-# Norwegian Tide
+# Norwegian Tide Lite
 
 [![Buy Me A Coffee][buymeacoffee-image]][buymeacoffee-url]
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs) ![Maintenance](https://img.shields.io/maintenance/yes/2024.svg)
 
 This is a Home Assistant custom integration for Norwegian Tide which is interfacing an open API by the [Norwegian Mapping Authority (Kartverket)](https://kartverket.no/en/), more precisely [sehavniva.no](http://www.sehavniva.no/) which provides information about water levels and tidal predicitions and forecasts. **All data is ©[Norwegian Mapping Authority (Kartverket)](https://kartverket.no/en/)**.
 
-Unfortunately the service only provides data for geographical positions in Norway - this is a limitation in the API and not in this integration.
+This light version is a fork of the code authored by [tmjo] without the camera entity included. The camera entity required
+ matplotlib to be installed and this fails with Raspberry Pi installatoins of Home Assistant. 
 
-OBS! Does not work with HA 2024.2.1 or 2024.2.2 due to a compatibility issue with Matplotlib, but it should be fixed from 2024.2.3 and onwards.
+Unfortunately the service only provides data for geographical positions in Norway - this is a limitation in the API and not in this integration.
 
 ## Installation
 There are different methods of installing the custom component. HACS is by far the simplest way for unexperienced users and is recomended.
@@ -18,7 +19,7 @@ The installation is currently not included in HACS as a default repo, but can be
 1. Make sure you have [HACS](https://hacs.xyz/) installed in your Home Assistant environment.
 2. Go to **HACS**, select **Integrations**.
 3. Click on the three dots in the upper right corner and select **Custom repositories**
-4. Copy/paste the **URL for this repo** `https://github.com/tmjo/ha-norwegiantide` into the URL-field, select **Integration as category** and then click **Add**.
+4. Copy/paste the **URL for this repo** `https://github.com/jm-cook/ha-norwegiantide-lite` into the URL-field, select **Integration as category** and then click **Add**.
 5. You should now find the **Norwegian Tide** integration by searching for it in HACS, proceed to install it.
 6. Restart Home Assistant (a warning should be shown in log saying you're using a custom integration).
 7. Continue to the Configuration-section.
@@ -27,7 +28,7 @@ The installation is currently not included in HACS as a default repo, but can be
 ### Manual
 1. Navigate to you home assistant configuration folder.
 2. Create a `custom_components` folder of it does not already exist, then navigate into it.
-3. Download the folder `norwegian-tide` from this repo and add it into your custom_components folder.
+3. Download the folder `norwegiantide_lite` from this repo and add it into your custom_components folder.
 4. Restart Home Assistant (a warning should be shown in log saying you're using a custom integration).
 5. Continue to the Configuration-section.
 
@@ -36,7 +37,7 @@ The installation is currently not included in HACS as a default repo, but can be
 1. Make sure you have git installed on your machine.
 2. Navigate to you home assistant configuration folder.
 3. Create a `custom_components` folder of it does not already exist, then navigate into it.
-4. Execute the following command: `git clone https://github.com/tmjo/ha-norwegiantide ha-norwegiantide`
+4. Execute the following command: `git clone https://github.com/tmjo/ha-norwegiantide-lite ha-norwegiantide-lite`
 5. Run `bash links.sh`
 6. Restart Home Assistant (a warning should be shown in log saying you're using a custom integration).
 7. Continue to the Configuration-section.
@@ -49,13 +50,9 @@ You will be asked to give your location a name and to provide latitude and longi
 Entities can be added and removed by clicking *Options* in HA integreation view at any time. It is also possible to enable more than one location by adding the integration several times.
 
 ## Usage
-Use the integration as you please, but I highly recommend to take a look at the [Apexchart-card](https://github.com/RomRider/apexcharts-card) by Romrider - it is an excellent graph card for lovelace which also enables the possibility to show future values. This is necessary to display prediction- and forecast values which are stored as attributes in the main sensor. Example:
+Use the integration as you please, but a recommended plot is the [Apexchart-card](https://github.com/RomRider/apexcharts-card) by Romrider - it is an excellent graph card for lovelace which also enables the possibility to show future values. This is necessary to display prediction- and forecast values which are stored as attributes in the main sensor. Example:
 
 ![apexchart-card](img/norwegiantide_apexchart.png "apexchart-card")
-
-The camera entity can also be used for UI since it provides a nice plot using Matplotlib, but I personally prefer the Apexchart-card since it provides more dynamics. The camera on the other hand can be handy if you would like to send notifications with an included forecast image/plot. It will look something like this:
-
-![camera entity](img/norwegiantide_cam.png "camera")
 
 More detailed description will follow, but worth mentioning:
  - Prediction: A calculated prediction for the location
@@ -79,3 +76,4 @@ MIT © [Tor Magne Johannessen][tmjo]. **All data is ©[Norwegian Mapping Authori
 [buymeacoffee-url]: https://www.buymeacoffee.com/tmjo
 [buymeacoffee-image]: https://img.shields.io/badge/support-buymeacoffee-222222.svg?style=flat-square
 [tmjo]: https://github.com/tmjo
+[jmc]: https://github.com/jm-cook

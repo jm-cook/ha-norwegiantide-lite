@@ -4,7 +4,7 @@
         "step": {
             "user": {
                 "title": "NorwegianTide",
-                "description": "If you need help with the configuration have a look here: https://github.com/tmjo/ha-norwegiantide",
+                "description": "If you need help with the configuration have a look here: https://github.com/jm-cook/ha-norwegiantide-lite",
                 "data": {
                     "place": "Location name",
                     "latitude": "Latitude",

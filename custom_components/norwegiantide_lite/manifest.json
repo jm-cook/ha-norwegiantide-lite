@@ -2,8 +2,8 @@
   "domain": "norwegiantidelite",
   "name": "Norwegian Tide Lite",
   "version": "0.1.2",
-  "documentation": "https://github.com/jm-cook/ha-norwegiantide",
-  "issue_tracker": "https://github.com/jm-cook/ha-norwegiantide/issues",
+  "documentation": "https://github.com/jm-cook/ha-norwegiantide-lite",
+  "issue_tracker": "https://github.com/jm-cook/ha-norwegiantide-lite/issues",
   "dependencies": [],
   "config_flow": true,
   "codeowners": [

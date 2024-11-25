@@ -4,18 +4,19 @@
         "step": {
             "user": {
                 "title": "NorwegianTide",
-                "description": "Hvis du trenger hjep til konfigurasjon ta en titt her: https://github.com/custom-components/NorwegianTide",
+                "description": "Hvis du trenger hjelp til konfigurasjon ta en titt her: https://github.com/jm-cook/ha-norwegiantide-lite",
                 "data": {
-                    "username": "Brukernavn",
-                    "password": "Passord"
+                    "place": "Location name",
+                    "latitude": "Latitude",
+                    "longitude": "Longitude"
                 }
             }
         },
         "error": {
-            "auth": "Brukernavn/Passord er feil."
+            "auth": "Latitude/longitude er feil eller utenfor dekning."
         },
         "abort": {
-            "single_instance_allowed": "Du kan konfigurere NorwegianTide kun en gang."
+            "single_instance_allowed": "Du kan konfigurere  kun en gang."
         }
     },
     "options": {

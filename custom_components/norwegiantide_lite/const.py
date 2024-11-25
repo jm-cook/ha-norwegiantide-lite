@@ -5,7 +5,7 @@ from .api import CONST_DIR_DEFAULT
 
 # Base component constants
 NAME = "Norwegian Tide Lite"
-DOMAIN = "norwegiantide_lite"
+DOMAIN = "norwegiantidelite"
 DOMAIN_DATA = f"{DOMAIN}_data"
 VERSION = "0.1.1"
 ATTRIBUTION = "Data from ©Kartverket (www.kartverket.no)"

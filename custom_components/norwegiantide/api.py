@@ -285,7 +285,7 @@ class NorwegianTideApiClient:
             for datatype in tidedata:
                 datadict[datatype] = self.findByTime(
                     tidedata.get(datatype), data["time"]
-                ).get("value", "NaN")
+                ).get("value", "null")
             tidedatatime[dt_parse_datetime(data["time"])] = datadict
         _LOGGER.debug(f"process_tidedatatime: {len(tidedatatime)}")
         # _LOGGER.debug(f"tidedatatime: {tidedatatime}")

@@ -1,5 +1,6 @@
 """Constants for NorwegianTide."""
-from homeassistant.const import UnitOfTime, UnitOfLength, SensorDeviceClass
+from homeassistant.componenys.sensor.const import SensorDeviceClass
+from homeassistant.const import UnitOfTime, UnitOfLength
 
 from .api import CONST_DIR_DEFAULT
 

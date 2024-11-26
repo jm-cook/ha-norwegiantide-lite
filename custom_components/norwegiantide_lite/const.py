@@ -124,7 +124,7 @@ ENTITIES = {
         ],
         "units": None,
         "convert_units_func": "",
-        "device_class": None,
+        "device_class": DEVICE_CLASS_TIMESTAMP,
         "icon": "mdi:wave",
     },
     "tide_next_low": {
@@ -133,7 +133,7 @@ ENTITIES = {
         "attrs": ["next_tide_low", "time_to_next_low"],
         "units": None,
         "convert_units_func": "",
-        "device_class": None,
+        "device_class": DEVICE_CLASS_TIMESTAMP,
         "icon": "mdi:wave",
     },
     "tide_next_high": {
@@ -142,7 +142,7 @@ ENTITIES = {
         "attrs": ["next_tide_high", "time_to_next_high"],
         "units": None,
         "convert_units_func": "",
-        "device_class": None,
+        "device_class": DEVICE_CLASS_TIMESTAMP,
         "icon": "mdi:waves",
     },
     "tide_time_to_next": {

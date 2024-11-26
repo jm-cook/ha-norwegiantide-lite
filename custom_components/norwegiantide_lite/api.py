@@ -41,7 +41,7 @@ CONST_DIR_DEFAULT = os.path.join(CONST_DIR_THIS, "tmp")
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
-HEADERS = {"Content-forecast_type": "application/json; charset=UTF-8"}
+HEADERS = {"Content-type": "application/json; charset=UTF-8"}
 
 
 class NorwegianTideApiClient:
@@ -70,7 +70,7 @@ class NorwegianTideApiClient:
 
     def get_url(
         self,
-        dataforecast_type="all",
+        datatype="all",
         refcode="cd",
         lang=API_LANG,
         interval=10,
@@ -85,7 +85,7 @@ class NorwegianTideApiClient:
 
         fromtime = fromtime.strftime(API_STRINGTIME)
         totime = totime.strftime(API_STRINGTIME)
-        url = f"http://api.sehavniva.no/tideapi.php?lat={self.lat}&lon={self.lon}&fromtime={fromtime}&totime={totime}&dataforecast_type={dataforecast_type}&refcode={refcode}&place={self.place}&file=&lang={lang}&interval={interval}&dst=0&tzone=&tide_request=locationdata"
+        url = f"http://api.sehavniva.no/tideapi.php?lat={self.lat}&lon={self.lon}&fromtime={fromtime}&totime={totime}&datatype={datatype}&refcode={refcode}&place={self.place}&file=&lang={lang}&interval={interval}&dst=0&tzone=&tide_request=locationdata"
         return url
 
     async def async_get_data(self) -> dict:
@@ -112,14 +112,14 @@ class NorwegianTideApiClient:
             # Get prediction, observation and forecast
             headers = {"User-Agent": API_USER_AGENT}
             response = await self.api_wrapper(
-                "get", self.get_url(dataforecast_type="all"), headers=headers
+                "get", self.get_url(datatype="all"), headers=headers
             )
             content = await response.text()
             self.locationdata = self.xml_location(content)
             self.tidedata = self.xml_tidedata(content)
 
             # Get low/high tides table
-            response = await self.api_wrapper("get", self.get_url(dataforecast_type="tab"))
+            response = await self.api_wrapper("get", self.get_url(datatype="tab"))
             content = await response.text()
             self.highlowdata = self.xml_high_low(content)
         # except AttributeError as e:
@@ -133,6 +133,9 @@ class NorwegianTideApiClient:
         self.next_tide = self.getNextTide()
         self.next_tide_low = self.getNextTide(highlow=API_LOW)
         self.next_tide_high = self.getNextTide(highlow=API_HIGH)
+        self.time_to_next_tide = self.getTimeToNextTide(self.next_tide)
+        self.time_to_next_low = self.getTimeToNextTide(highlow=API_LOW)
+        self.time_to_next_high = self.getTimeToNextTide(highlow=API_HIGH)
         self.ebb_flow = self.getTideStateEbbFlow(self.next_tide)
         self.tide_state = self.getTideState(self.next_tide)
         self.tide_state_full = self.getTideStateFull(self.next_tide)
@@ -157,6 +160,9 @@ class NorwegianTideApiClient:
             },
             "next_tide_low": self.next_tide_low,
             "next_tide_high": self.next_tide_high,
+            "time_to_next_tide": self.time_to_next_tide,
+            "time_to_next_low": self.time_to_next_low,
+            "time_to_next_high": self.time_to_next_high,
             "ebb_flow": self.ebb_flow,
             "ebbing": self.ebb_flow == API_EBB,
             "flowing": self.ebb_flow == API_FLOW,
@@ -208,8 +214,8 @@ class NorwegianTideApiClient:
         """Treat XML data for high and low tides."""
         highlow = []
         root = ET.fromstring(content)
-        for dataforecast_type in root.iter("data"):
-            for data in dataforecast_type.iter("waterlevel"):
+        for datatype in root.iter("data"):
+            for data in datatype.iter("waterlevel"):
                 highlow.append(data.attrib)
                 _LOGGER.debug(f"xml_high_low: {data.attrib}")
         return highlow
@@ -218,14 +224,14 @@ class NorwegianTideApiClient:
         """Treat XML data for detailed tide information."""
         tidedata = {}
         root = ET.fromstring(content)
-        for dataforecast_type in root.iter("data"):
-            tidedata[dataforecast_type.attrib.get("forecast_type")] = []
-            for data in dataforecast_type.iter("waterlevel"):
-                tidedata[dataforecast_type.attrib.get("forecast_type")].append(data.attrib)
-        _LOGGER.debug(f"xml_tidedata: {len(tidedata)} dataforecast_types")
+        for datatype in root.iter("data"):
+            tidedata[datatype.attrib.get("type")] = []
+            for data in datatype.iter("waterlevel"):
+                tidedata[datatype.attrib.get("type")].append(data.attrib)
+        _LOGGER.debug(f"xml_tidedata: {len(tidedata)} datatypes")
         for k in tidedata.keys():
             _LOGGER.debug(
-                f"xml_tidedata - dataforecast_type: {k} {len(tidedata.get(k))} entries"
+                f"xml_tidedata - datatype: {k} {len(tidedata.get(k))} entries"
             )
         return tidedata
 
@@ -276,18 +282,18 @@ class NorwegianTideApiClient:
 
         for data in tidedata.get(API_PREDICTION):
             datadict = {}
-            for dataforecast_type in tidedata:
-                datadict[dataforecast_type] = self.findByTime(
-                    tidedata.get(dataforecast_type), data["time"]
+            for datatype in tidedata:
+                datadict[datatype] = self.findByTime(
+                    tidedata.get(datatype), data["time"]
                 ).get("value", None)
             tidedatatime[dt_parse_datetime(data["time"])] = datadict
         _LOGGER.debug(f"process_tidedatatime: {len(tidedatatime)}")
         # _LOGGER.debug(f"tidedatatime: {tidedatatime}")
         return tidedatatime
 
-    def findByTime(self, dataforecast_type, time):
+    def findByTime(self, datatype, time):
         """Find data by time."""
-        for data in dataforecast_type:
+        for data in datatype:
             if data.get("time") == time:
                 return data
         return {}
@@ -308,15 +314,15 @@ class NorwegianTideApiClient:
                 details[k] = v
         return details
 
-    def getData(self, tidedatatime=None, forecast_type=API_FORECAST):
-        """Get list of data [datestamp, data]. forecast_type can be forecast, prediction or observation."""
+    def getData(self, tidedatatime=None, type=API_FORECAST):
+        """Get list of data [datestamp, data]. Type can be forecast, prediction or observation."""
         if tidedatatime is None:
             tidedatatime = self.tidedatatime
 
         datalist = []
         for key, data in tidedatatime.items():
-            datalist.append([key, data.get(forecast_type)])
-        _LOGGER.debug(f"getData_list {forecast_type}: {datalist}")
+            datalist.append([key, data.get(type)])
+        _LOGGER.debug(f"getData_list {type}: {datalist}")
         return datalist
 
     def getDataAll(self, tidedatatime=None):
@@ -356,6 +362,21 @@ class NorwegianTideApiClient:
                 tide2 = dt_parse_datetime(tide.get("time", None))  # previous tide
         return tide1 - tide2
 
+    def getTimeToNextTide(self, nexttide=None, highlow=None):
+        """Get time to next change of tide."""
+        try:
+            if nexttide is None and highlow is None:
+                nexttide = self.next_tide
+            elif highlow is not None:
+                nexttide = self.getNextTide(highlow)
+
+            if nexttide is not None:
+                return nexttide.get("time") - dt_now()
+            else:
+                return None
+        # except TypeError:
+        except:
+            return None
 
     def getTideState(self, nexttide=None):
         """Get state of next change in tide (low/high)."""
@@ -383,7 +404,7 @@ class NorwegianTideApiClient:
                 elif nexttide.get("flag") == API_HIGH:
                     return f"{API_LOW}"
             return "Normal"
-        # except forecast_TypeError:
+        # except TypeError:
         except:
             return None
 
@@ -415,16 +436,16 @@ class NorwegianTideApiClient:
         except TypeError:
             return None
 
-    def getLastData(self, forecast_type=None):
-        """Get last data in dataforecast_type."""
+    def getLastData(self, type=None):
+        """Get last data in datatype."""
         data = {}
-        for dataforecast_type in self.tidedata:
-            if forecast_type is None or forecast_type == dataforecast_type:
-                data[dataforecast_type] = self.tidedata[dataforecast_type][-1]
-        _LOGGER.debug(f"getLastData (forecast_type={forecast_type}):  - {data}")
+        for datatype in self.tidedata:
+            if type is None or type == datatype:
+                data[datatype] = self.tidedata[datatype][-1]
+        _LOGGER.debug(f"getLastData (type={type}):  - {data}")
         return data
 
-    def getCurrentData(self, forecast_type=None):
+    def getCurrentData(self, type=None):
         """Get current data i.e. data nearest to actual time."""
         try:
             nearest = self.getNearestData(self.tidedatatime, dt_now())
@@ -435,7 +456,7 @@ class NorwegianTideApiClient:
 
     def getCurrentDataObservation(self):
         """Get current observation i.e. observation nearest to actual time."""
-        lastobservation = self.getLastData(forecast_type=API_OBSERVATION).get(
+        lastobservation = self.getLastData(type=API_OBSERVATION).get(
             API_OBSERVATION, None
         )
         if lastobservation is not None:
@@ -448,10 +469,10 @@ class NorwegianTideApiClient:
             return None
 
     def getNearestData(self, items, data):
-        """Return the datetime in items which is the closest to the data pivot, dateforecast_types must support comparison and subtraction."""
+        """Return the datetime in items which is the closest to the data pivot, datetypes must support comparison and subtraction."""
         try:
             return min(items, key=lambda x: abs(x - data))
-        # except forecast_TypeError:
+        # except TypeError:
         except:
             return None
 
@@ -589,10 +610,10 @@ def dt_parse_datetime(dt_str: str) -> Optional[dt.datetime]:
         _LOGGER.debug(f"{dt_str} - PARSE ERROR: {e}")
 
 
-def dt_strftime(dt_dt: dt.datetime, str_format=API_STRINGTIME) -> Optional[str]:
+def dt_strftime(dt_dt: dt.datetime, format=API_STRINGTIME) -> Optional[str]:
     """Parse datetime into string with API dateformat and timezone."""
     try:
-        return dt_dt.astimezone(DEFAULT_TIME_ZONE).strftime(str_format)
+        return dt_dt.astimezone(DEFAULT_TIME_ZONE).strftime(format)
     except ValueError as e:
         _LOGGER.debug(f"{dt_dt} - PARSE ERROR: {e}")
 
@@ -601,12 +622,12 @@ def parse_arguments():
     """Argument parser for running API separately."""
     parser = argparse.ArgumentParser(description=f"{API_NAME}: {API_ATTRIBUTION}")
     parser.add_argument(
-        "-lat", "--latitude", help="Latitude", required=True, forecast_type=float
+        "-lat", "--latitude", help="Latitude", required=True, type=float
     )
     parser.add_argument(
-        "-lon", "--longitude", help="Longitude", required=True, forecast_type=float
+        "-lon", "--longitude", help="Longitude", required=True, type=float
     )
-    parser.add_argument("-p", "--place", help="Place name", required=False, forecast_type=str)
+    parser.add_argument("-p", "--place", help="Place name", required=False, type=str)
     parser.add_argument(
         "-s", "--show", help="Show plot", required=False, action="store_true"
     )

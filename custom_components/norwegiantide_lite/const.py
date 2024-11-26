@@ -16,8 +16,7 @@ ISSUE_URL = "https://github.com/jm-cook/ha-norwegiantide-lite/issues"
 BINARY_SENSOR = "binary_sensor"
 SENSOR = "sensor"
 SWITCH = "switch"
-CAMERA = "camera"
-PLATFORMS = [BINARY_SENSOR, SENSOR, SWITCH, CAMERA]
+PLATFORMS = [BINARY_SENSOR, SENSOR, SWITCH]
 
 # Configuration and options
 CONF_ENABLED = "enabled"
@@ -232,19 +231,5 @@ ENTITIES = {
         "convert_units_func": None,
         "device_class": None,
         "icon": "mdi:wave",
-    },
-    "tide_cam": {
-        "type": "camera",
-        "key": "currentdata.forecast",
-        "attrs": [
-            "ebb_flow",
-            "next_tide_time",
-            "time_to_next_tide",
-        ],
-        "units": None,
-        "convert_units_func": None,
-        "device_class": None,
-        "icon": "mdi:chart-timeline-variant-shimmer",
-        "state_func": None,
-    },
+    }
 }

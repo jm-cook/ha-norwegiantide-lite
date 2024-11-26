@@ -21,7 +21,6 @@ from .entity import convert_units_funcs
 from .binary_sensor import NorwegianTideBinarySensor
 from .sensor import NorwegianTideSensor
 from .switch import NorwegianTideSwitch
-from .camera import NorwegianTideCam
 
 # from config.custom_components.norwegiantide.camera import NorwegianTideCam
 from .const import (
@@ -96,7 +95,6 @@ class NorwegianTideDataUpdateCoordinator(DataUpdateCoordinator):
         self.sensor_entities = []
         self.switch_entities = []
         self.binary_sensor_entities = []
-        self.camera_entities = []
 
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=API_SCAN_INTERVAL)
 
@@ -125,7 +123,6 @@ class NorwegianTideDataUpdateCoordinator(DataUpdateCoordinator):
             self.switch_entities
             + self.sensor_entities
             + self.binary_sensor_entities
-            + self.camera_entities
         )
         _LOGGER.debug(f"Update HA state for {len(all_entities)} entities.")
         for entity in all_entities:
@@ -202,24 +199,6 @@ class NorwegianTideDataUpdateCoordinator(DataUpdateCoordinator):
                         state_func=data.get("state_func", None),
                     )
                 )
-            elif entity_type == "camera":
-                self.camera_entities.append(
-                    NorwegianTideCam(
-                        coordinator=self,
-                        config_entry=self.entry,
-                        place=self.place,
-                        name=key,
-                        state_key=data["key"],
-                        units=data["units"],
-                        convert_units_func=convert_units_funcs.get(
-                            data["convert_units_func"], None
-                        ),
-                        attrs_keys=data["attrs"],
-                        device_class=data["device_class"],
-                        icon=data["icon"],
-                        state_func=data.get("state_func", None),
-                    )
-                )
 
     def get_binary_sensor_entities(self):
         return self.binary_sensor_entities
@@ -229,9 +208,6 @@ class NorwegianTideDataUpdateCoordinator(DataUpdateCoordinator):
 
     def get_switch_entities(self):
         return self.switch_entities
-
-    def get_camera_entities(self):
-        return self.camera_entities
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

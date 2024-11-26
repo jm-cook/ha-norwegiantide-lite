@@ -347,31 +347,6 @@ class NorwegianTideApiClient:
         except TypeError:
             return {}
 
-    def getTimeBetweenTideTimes(self, tide1, tide2=None):
-        """Get difference between two tide times."""
-        if tide2 is None:
-            for tide in self.highlow:
-                if dt_now() < tide.get("time"):
-                    break
-                tide2 = dt_parse_datetime(tide.get("time", None))  # previous tide
-        return tide1 - tide2
-
-    def getTimeToNextTide(self, nexttide=None, highlow=None):
-        """Get time to next change of tide."""
-        try:
-            if nexttide is None and highlow is None:
-                nexttide = self.next_tide
-            elif highlow is not None:
-                nexttide = self.getNextTide(highlow)
-
-            if nexttide is not None:
-                return nexttide.get("time") - dt_now()
-            else:
-                return None
-        # except TypeError:
-        except:
-            return None
-
     def getTideState(self, nexttide=None):
         """Get state of next change in tide (low/high)."""
         try:

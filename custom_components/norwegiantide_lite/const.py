@@ -137,40 +137,10 @@ ENTITIES = {
         "device_class": SensorDeviceClass.TIMESTAMP,
         "icon": "mdi:waves",
     },
-    "tide_time_to_next": {
-        "type": "sensor",
-        "key": "time_to_next_tide",
-        "attrs": ["next_tide_time"],
-        "units": UnitOfTime.HOURS,
-        "convert_units_func": "round_2_dec",
-        "device_class": None,
-        "icon": "mdi:wave",
-        "state_func": lambda delta2next: delta2next.total_seconds() / 3600,
-    },
-    "tide_time_to_next_low": {
-        "type": "sensor",
-        "key": "time_to_next_low",
-        "attrs": ["next_tide_low"],
-        "units": UnitOfTime.HOURS,
-        "convert_units_func": "round_2_dec",
-        "device_class": None,
-        "icon": "mdi:wave",
-        "state_func": lambda delta2next: delta2next.total_seconds() / 3600,
-    },
-    "tide_time_to_next_high": {
-        "type": "sensor",
-        "key": "time_to_next_high",
-        "attrs": ["next_tide_high"],
-        "units": UnitOfTime.HOURS,
-        "convert_units_func": "round_2_dec",
-        "device_class": None,
-        "icon": "mdi:waves",
-        "state_func": lambda delta2next: delta2next.total_seconds() / 3600,
-    },
     "tide_state": {
         "type": "sensor",
         "key": "tide_state",
-        "attrs": ["next_tide_time", "time_to_next_tide"],
+        "attrs": ["next_tide_time"],
         "units": None,
         "convert_units_func": None,
         "device_class": None,
@@ -181,8 +151,7 @@ ENTITIES = {
         "key": "currentdata.prediction",
         "attrs": [
             "ebb_flow",
-            "next_tide_time",
-            "time_to_next_tide",
+            "next_tide_time"
         ],
         "units": UnitOfLength.CENTIMETERS,
         "convert_units_func": None,
@@ -194,8 +163,7 @@ ENTITIES = {
         "key": "currentdata.forecast",
         "attrs": [
             "ebb_flow",
-            "next_tide_time",
-            "time_to_next_tide",
+            "next_tide_time"
         ],
         "units": UnitOfLength.CENTIMETERS,
         "convert_units_func": None,
@@ -207,8 +175,7 @@ ENTITIES = {
         "key": "currentobservation.observation",
         "attrs": [
             "ebb_flow",
-            "next_tide_time",
-            "time_to_next_tide",
+            "next_tide_time"
         ],
         "units": UnitOfLength.CENTIMETERS,
         "convert_units_func": None,

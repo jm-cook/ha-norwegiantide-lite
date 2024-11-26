@@ -59,11 +59,7 @@ ENTITIES = {
             "flowing",
             "tide_state",
             "next_tide",
-            "time_to_next_tide",
-            "next_tide_low",
-            "time_to_next_low",
             "next_tide_high",
-            "time_to_next_high",
             "currentdata.prediction",
             "currentdata.forecast",
             "currentdata.observation",
@@ -81,7 +77,6 @@ ENTITIES = {
         "key": "ebb_flow",
         "attrs": [
             "ebb_flow",
-            "time_to_next_tide",
             "next_tide_time",
         ],
         "units": None,
@@ -95,7 +90,6 @@ ENTITIES = {
         "key": "ebb_flow",
         "attrs": [
             "ebb_flow",
-            "time_to_next_tide",
             "next_tide_time",
         ],
         "units": None,
@@ -107,10 +101,10 @@ ENTITIES = {
     "tide_ebb_flow": {
         "type": "sensor",
         "key": "ebb_flow",
-        "attrs": ["next_tide_time", "time_to_next_tide"],
+        "attrs": ["next_tide_time"],
         "units": None,
         "convert_units_func": None,
-        "device_class": "ebb_flow",
+        "device_class": None,
         "icon": "mdi:wave",
     },
     "tide_next": {
@@ -118,9 +112,6 @@ ENTITIES = {
         "key": "next_tide.time",
         "attrs": [
             "next_tide",
-            "time_to_next_tide",
-            "time_to_next_low",
-            "time_to_next_high",
             "highlow",
         ],
         "units": None,
@@ -131,7 +122,7 @@ ENTITIES = {
     "tide_next_low": {
         "type": "sensor",
         "key": "next_tide_low.time",
-        "attrs": ["next_tide_low", "time_to_next_low"],
+        "attrs": ["next_tide_low"],
         "units": None,
         "convert_units_func": "",
         "device_class": SensorDeviceClass.TIMESTAMP,
@@ -140,7 +131,7 @@ ENTITIES = {
     "tide_next_high": {
         "type": "sensor",
         "key": "next_tide_high.time",
-        "attrs": ["next_tide_high", "time_to_next_high"],
+        "attrs": ["next_tide_high"],
         "units": None,
         "convert_units_func": "",
         "device_class": SensorDeviceClass.TIMESTAMP,
@@ -182,7 +173,7 @@ ENTITIES = {
         "attrs": ["next_tide_time", "time_to_next_tide"],
         "units": None,
         "convert_units_func": None,
-        "device_class": "tide_state",
+        "device_class": None,
         "icon": "mdi:wave",
     },
     "tide_prediction": {

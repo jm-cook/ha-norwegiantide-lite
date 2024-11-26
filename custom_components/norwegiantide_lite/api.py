@@ -133,9 +133,6 @@ class NorwegianTideApiClient:
         self.next_tide = self.getNextTide()
         self.next_tide_low = self.getNextTide(highlow=API_LOW)
         self.next_tide_high = self.getNextTide(highlow=API_HIGH)
-        self.time_to_next_tide = self.getTimeToNextTide(self.next_tide)
-        self.time_to_next_low = self.getTimeToNextTide(highlow=API_LOW)
-        self.time_to_next_high = self.getTimeToNextTide(highlow=API_HIGH)
         self.ebb_flow = self.getTideStateEbbFlow(self.next_tide)
         self.tide_state = self.getTideState(self.next_tide)
         self.tide_state_full = self.getTideStateFull(self.next_tide)
@@ -160,9 +157,6 @@ class NorwegianTideApiClient:
             },
             "next_tide_low": self.next_tide_low,
             "next_tide_high": self.next_tide_high,
-            "time_to_next_tide": self.time_to_next_tide,
-            "time_to_next_low": self.time_to_next_low,
-            "time_to_next_high": self.time_to_next_high,
             "ebb_flow": self.ebb_flow,
             "ebbing": self.ebb_flow == API_EBB,
             "flowing": self.ebb_flow == API_FLOW,

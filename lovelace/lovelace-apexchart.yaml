@@ -1,4 +1,9 @@
-type: 'custom:apexcharts-card'
+type: custom:apexcharts-card
+experimental:
+  disable_config_validation: true
+grid_options:
+  columns: full
+  rows: 4
 graph_span: 36h
 span:
   offset: +24h
@@ -7,13 +12,13 @@ now:
   label: Now
 header:
   show: true
-  title: Tidewater
+  title: Tide
   show_states: true
 series:
   - entity: sensor.mylocation_tide_main
     name: Prediction
+    stroke_width: 2
     show:
-      extremas: time
       in_header: before_now
       legend_value: false
     data_generator: |
@@ -22,6 +27,7 @@ series:
       });
   - entity: sensor.mylocation_tide_main
     name: Forecast
+    stroke_width: 2
     show:
       in_header: before_now
       legend_value: false
@@ -31,8 +37,9 @@ series:
       });
   - entity: sensor.mylocation_tide_main
     name: Observation
+    stroke_width: 2
     show:
-      in_header: before_now
+      in_header: raw
       legend_value: false
     data_generator: |
       return entity.attributes.data.map((entry) => {

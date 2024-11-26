@@ -53,6 +53,10 @@ Use the integration as you please, but a recommended plot is the [Apexchart-card
 
 ![apexchart-card](img/norwegiantide_apexchart.png "apexchart-card")
 
+The example above was created using [Apexchart-card](https://github.com/RomRider/apexcharts-card). 
+
+[See here for example configurations.](lovelace/README.md)
+
 More detailed description will follow, but worth mentioning:
  - Prediction: A calculated prediction for the location
  - Forecast: Includes the weather effect on top of the prediction

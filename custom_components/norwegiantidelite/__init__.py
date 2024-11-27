@@ -46,7 +46,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType):
     return True
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up this integration using UI."""
     if hass.data.get(DOMAIN) is None:
         hass.data.setdefault(DOMAIN, {})
@@ -69,12 +69,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     hass.data[DOMAIN][entry.entry_id] = coordinator
     hass.data[DOMAIN]["entities"] = []
 
-    for platform in PLATFORMS:
-        if entry.options.get(platform, True):
-            coordinator.platforms.append(platform)
-            hass.async_create_task(
-                await hass.config_entries.async_forward_entry_setups(entry, platform)
-            )
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     entry.add_update_listener(async_reload_entry)
     await coordinator.add_schedulers()
@@ -127,7 +122,7 @@ class NorwegianTideDataUpdateCoordinator(DataUpdateCoordinator):
         )
         _LOGGER.debug(f"Update HA state for {len(all_entities)} entities.")
         for entity in all_entities:
-            entity.async_schedule_update_ha_state(True)
+            entity.schedule_update_ha_state(True)
 
     def _create_entitites(self):
         _LOGGER.debug(f"Creating entities for {self.place}.")
@@ -215,15 +210,16 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Handle removal of an entry."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
     _LOGGER.debug(f"Unloading {DOMAIN}: {coordinator.place}")
-    unloaded = all(
-        await asyncio.gather(
-            *[
-                hass.config_entries.async_forward_entry_unload(entry, platform)
-                for platform in PLATFORMS
-                if platform in coordinator.platforms
-            ]
-        )
-    )
+    unloaded = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    # unloaded = all(
+    #     await asyncio.gather(
+    #         *[
+    #             hass.config_entries.async_forward_entry_unload(entry, platform)
+    #             for platform in PLATFORMS
+    #             if platform in coordinator.platforms
+    #         ]
+    #     )
+    # )
     if unloaded:
         hass.data[DOMAIN].pop(entry.entry_id)
     return unloaded

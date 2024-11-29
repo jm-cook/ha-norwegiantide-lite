@@ -66,7 +66,7 @@ class NorwegianTideApiClient:
         self.tidedatatime = {}
         self.next_tide = {}
         self.output_dir = output_dir
-        self.file_image = API_NAME + "_" + self.place + "_img.png"
+        # self.file_image = API_NAME + "_" + self.place + "_img.png"
 
     def get_url(
         self,

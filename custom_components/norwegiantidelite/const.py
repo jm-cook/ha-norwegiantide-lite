@@ -1,8 +1,8 @@
 """Constants for NorwegianTide."""
-from homeassistant.components.sensor.const import SensorDeviceClass
+from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
 from homeassistant.const import UnitOfTime, UnitOfLength
 
-from .api import CONST_DIR_DEFAULT
+# from .api import CONST_DIR_DEFAULT
 
 # Base component constants
 NAME = "Norwegian Tide Lite"
@@ -58,8 +58,8 @@ ENTITIES = {
             "ebbing",
             "flowing",
             "tide_state",
-            "next_tide",
-            "next_tide_high",
+            # "next_tide",
+            # "next_tide_high",
             "currentdata.prediction",
             "currentdata.forecast",
             "currentdata.observation",
@@ -68,57 +68,57 @@ ENTITIES = {
         ],
         "units": UnitOfLength.CENTIMETERS,
         "convert_units_func": None,
-        "device_class": None,
+        "device_class": SensorStateClass.MEASUREMENT,
         "icon": "mdi:wave",
         "state_func": None,
     },
-    "tide_ebbing": {
-        "type": "binary_sensor",
-        "key": "ebb_flow",
-        "attrs": [
-            "ebb_flow",
-            "next_tide_time",
-        ],
-        "units": None,
-        "convert_units_func": None,
-        "device_class": None,
-        "icon": "mdi:arrow-expand-down",
-        "state_func": lambda ebb_flow: ebb_flow == TIDE_EBB,
-    },
-    "tide_flowing": {
-        "type": "binary_sensor",
-        "key": "ebb_flow",
-        "attrs": [
-            "ebb_flow",
-            "next_tide_time",
-        ],
-        "units": None,
-        "convert_units_func": None,
-        "device_class": None,
-        "icon": "mdi:arrow-expand-up",
-        "state_func": lambda ebb_flow: ebb_flow == TIDE_FLOW,
-    },
-    "tide_ebb_flow": {
-        "type": "sensor",
-        "key": "ebb_flow",
-        "attrs": ["next_tide_time"],
-        "units": None,
-        "convert_units_func": None,
-        "device_class": None,
-        "icon": "mdi:wave",
-    },
-    "tide_next": {
-        "type": "sensor",
-        "key": "next_tide.time",
-        "attrs": [
-            "next_tide",
-            "highlow",
-        ],
-        "units": None,
-        "convert_units_func": "",
-        "device_class": SensorDeviceClass.TIMESTAMP,
-        "icon": "mdi:wave",
-    },
+    # "tide_ebbing": {
+    #     "type": "binary_sensor",
+    #     "key": "ebb_flow",
+    #     "attrs": [
+    #         "ebb_flow",
+    #         "next_tide_time",
+    #     ],
+    #     "units": None,
+    #     "convert_units_func": None,
+    #     "device_class": None,
+    #     "icon": "mdi:arrow-expand-down",
+    #     "state_func": lambda ebb_flow: ebb_flow == TIDE_EBB,
+    # },
+    # "tide_flowing": {
+    #     "type": "binary_sensor",
+    #     "key": "ebb_flow",
+    #     "attrs": [
+    #         "ebb_flow",
+    #         "next_tide_time",
+    #     ],
+    #     "units": None,
+    #     "convert_units_func": None,
+    #     "device_class": None,
+    #     "icon": "mdi:arrow-expand-up",
+    #     "state_func": lambda ebb_flow: ebb_flow == TIDE_FLOW,
+    # },
+    # "tide_ebb_flow": {
+    #     "type": "sensor",
+    #     "key": "ebb_flow",
+    #     "attrs": ["next_tide_time"],
+    #     "units": None,
+    #     "convert_units_func": None,
+    #     "device_class": None,
+    #     "icon": "mdi:wave",
+    # },
+    # "tide_next": {
+    #     "type": "sensor",
+    #     "key": "next_tide.time",
+    #     "attrs": [
+    #         "next_tide",
+    #         "highlow",
+    #     ],
+    #     "units": None,
+    #     "convert_units_func": "",
+    #     "device_class": SensorDeviceClass.TIMESTAMP,
+    #     "icon": "mdi:wave",
+    # },
     "tide_next_low": {
         "type": "sensor",
         "key": "next_tide_low.time",
@@ -137,51 +137,52 @@ ENTITIES = {
         "device_class": SensorDeviceClass.TIMESTAMP,
         "icon": "mdi:waves",
     },
-    "tide_state": {
-        "type": "sensor",
-        "key": "tide_state",
-        "attrs": ["next_tide_time"],
-        "units": None,
-        "convert_units_func": None,
-        "device_class": None,
-        "icon": "mdi:wave",
-    },
-    "tide_prediction": {
-        "type": "sensor",
-        "key": "currentdata.prediction",
-        "attrs": [
-            "ebb_flow",
-            "next_tide_time"
-        ],
-        "units": UnitOfLength.CENTIMETERS,
-        "convert_units_func": None,
-        "device_class": None,
-        "icon": "mdi:wave",
-    },
-    "tide_forecast": {
-        "type": "sensor",
-        "key": "currentdata.forecast",
-        "attrs": [
-            "ebb_flow",
-            "next_tide_time"
-        ],
-        "units": UnitOfLength.CENTIMETERS,
-        "convert_units_func": None,
-        "device_class": None,
-        "icon": "mdi:wave",
-    },
-    "tide_observation": {
-        "type": "sensor",
-        "key": "currentobservation.observation",
-        "attrs": [
-            "ebb_flow",
-            "next_tide_time"
-        ],
-        "units": UnitOfLength.CENTIMETERS,
-        "convert_units_func": None,
-        "device_class": None,
-        "icon": "mdi:wave",
-    },
+    # "tide_state": {
+    #     "type": "sensor",
+    #     "key": "tide_state",
+    #     "attrs": ["next_tide_time"],
+    #     "units": None,
+    #     "convert_units_func": None,
+    #     "device_class": None,
+    #     "icon": "mdi:wave",
+    # },
+    # "tide_prediction": {
+    #     "type": "sensor",
+    #     "key": "currentdata.prediction",
+    #     "attrs": [
+    #         "ebb_flow",
+    #         "next_tide_time"
+    #     ],
+    #     "units": UnitOfLength.CENTIMETERS,
+    #     "convert_units_func": None,
+    #     "device_class": None,
+    #     "icon": "mdi:wave",
+    # },
+    # "tide_forecast": {
+    #     "type": "sensor",
+    #     "key": "currentdata.forecast",
+    #     "attrs": [
+    #         "ebb_flow",
+    #         "next_tide_time"
+    #     ],
+    #     "units": UnitOfLength.CENTIMETERS,
+    #     "convert_units_func": None,
+    #     "device_class": None,
+    #     "icon": "mdi:wave",
+    # },
+    # "tide_observation": {
+    #     "type": "sensor",
+    #     "key": "currentobservation.observation",
+    #     "attrs": [
+    #         "ebb_flow",
+    #         "next_tide_time",
+    #         "time_to_next_tide",
+    #     ],
+    #     "units": UnitOfLength.CENTIMETERS,
+    #     "convert_units_func": None,
+    #     "device_class": None,
+    #     "icon": "mdi:wave",
+    # },
     "tide_weathereffect": {
         "type": "sensor",
         "key": "currentobservation.weathereffect",

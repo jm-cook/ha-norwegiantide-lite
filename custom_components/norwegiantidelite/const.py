@@ -63,8 +63,7 @@ ENTITIES = {
             "currentdata.prediction",
             "currentdata.forecast",
             "currentdata.observation",
-            "currentobservation.weathereffect",
-            "data",
+            "currentobservation.weathereffect"
         ],
         "units": UnitOfLength.CENTIMETERS,
         "convert_units_func": None,

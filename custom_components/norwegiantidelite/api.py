@@ -5,7 +5,8 @@ import re
 import socket
 import xml.etree.ElementTree as ET
 import argparse
-from datetime import timedelta
+import json
+from datetime import timedelta, datetime
 from decimal import Decimal
 from typing import Optional
 
@@ -167,7 +168,8 @@ class NorwegianTideApiClient:
             "lastdata": self.last_data,
             "currentdata": self.current_data,
             "currentobservation": self.current_observation,
-            "data": self.data,
+            # the tide prediction and observation dataset does not belong in the state.
+            # "data": self.data,
         }
 
     async def api_wrapper(
@@ -318,6 +320,20 @@ class NorwegianTideApiClient:
             datalist.append([key, data.get(type)])
         _LOGGER.debug(f"getData_list {type}: {datalist}")
         return datalist
+
+    def serialize_datetime(self, obj):
+        """serialize datetime to json"""
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        raise TypeError("Type not serializable")
+
+    def getDataAllResponse(self, tidedatatime=None):
+        # Return a JSON serializable dict
+        da = self.getDataAll(tidedatatime)
+        da_ser = json.dumps(
+            da, default=self.serialize_datetime
+        )
+        return json.loads(da_ser)
 
     def getDataAll(self, tidedatatime=None):
         """Get list of data [datestamp, data]."""

@@ -6,11 +6,12 @@ import asyncio
 
 # from config.custom_components import norwegiantide
 import logging
-from datetime import timedelta
+from datetime import timedelta, datetime
+import json
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_MONITORED_CONDITIONS
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, ServiceCall, ServiceResponse, SupportsResponse
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.event import async_track_time_interval
@@ -39,6 +40,8 @@ API_SCAN_INTERVAL = timedelta(minutes=5)
 ENTITIES_SCAN_INTERVAL = timedelta(seconds=60)
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
+
+
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType):
@@ -73,6 +76,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     entry.add_update_listener(async_reload_entry)
     await coordinator.add_schedulers()
+
+    # https://developers.home-assistant.io/docs/dev_101_services/
+    async def handle_tideupdate(service: ServiceCall) -> ServiceResponse:
+        return {
+            "states" : client.current_observation,
+            "data": client.getDataAllResponse()
+        }
+
+    hass.services.async_register(
+        DOMAIN,
+        "get_tides",
+        handle_tideupdate,
+        supports_response=SupportsResponse.ONLY,
+    )
+
     return True
 
 

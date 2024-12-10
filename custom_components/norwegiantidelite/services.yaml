@@ -1,0 +1,6 @@
+get_tides:
+  name: Get tide forecast
+  description: Get forcast and predicted tide for the given location
+  target:
+    entity:
+      domain: sensor

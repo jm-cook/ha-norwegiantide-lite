@@ -21,9 +21,9 @@ import os, sys
 DEFAULT_TIME_ZONE: dt.tzinfo = pytz.timezone("Europe/Oslo")
 TIMEOUT = 30  # seconds
 API_ATTRIBUTION = "Data from ©Kartverket (www.kartverket.no)"
-API_ATTRIBUTION_URL = "http://sehavniva.no/"
+API_ATTRIBUTION_URL = "https://sehavniva.no/"
 API_NAME = "norwegiantidelite"
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 API_USER_AGENT = f"{API_NAME}/{VERSION} https://github.com/jm-cook/ha-norwegiantide-lite"
 API_PREDICTION = "prediction"
 API_OBSERVATION = "observation"

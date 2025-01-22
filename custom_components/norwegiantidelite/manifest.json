@@ -1,7 +1,7 @@
 {
   "domain": "norwegiantidelite",
   "name": "Norwegian Tide Lite",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "documentation": "https://github.com/jm-cook/ha-norwegiantide-lite",
   "issue_tracker": "https://github.com/jm-cook/ha-norwegiantide-lite/issues",
   "dependencies": [],

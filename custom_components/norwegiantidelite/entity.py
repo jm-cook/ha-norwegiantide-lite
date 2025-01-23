@@ -171,6 +171,7 @@ class NorwegianTideEntity(CoordinatorEntity):
             value = data.get(second, None)
             if value is None:
                 _LOGGER.debug(f"Did not find data for {first}.{second}")
+                _LOGGER.debug(f"data {data}")
         elif data is not None:
             value = data
         else:

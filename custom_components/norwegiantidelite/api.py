@@ -87,6 +87,9 @@ class NorwegianTideApiClient:
         fromtime = fromtime.strftime(API_STRINGTIME)
         totime = totime.strftime(API_STRINGTIME)
         url = f"https://vannstand.kartverket.no/tideapi_no.html?lat={self.lat}&lon={self.lon}&fromtime={fromtime}&totime={totime}&datatype={datatype}&refcode={refcode}&place={self.place}&file=&lang={lang}&interval={interval}&dst=0&tzone=&tide_request=locationdata"
+        _LOGGER.debug(
+            f"API url from get_url() {url}"
+        )
         return url
 
     async def async_get_data(self) -> dict:

@@ -8,7 +8,7 @@ from homeassistant.const import UnitOfTime, UnitOfLength
 NAME = "Norwegian Tide Lite"
 DOMAIN = "norwegiantidelite"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 ATTRIBUTION = "Data from ©Kartverket (www.kartverket.no)"
 MANUFACTURER = f"{NAME}"
 ISSUE_URL = "https://github.com/jm-cook/ha-norwegiantide-lite/issues"

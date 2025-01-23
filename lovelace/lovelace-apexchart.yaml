@@ -15,7 +15,7 @@ header:
   title: Tide
   show_states: true
 series:
-  - entity: sensor.mylocation_tide_main
+  - entity: sensor.home_tide_response
     name: Prediction
     stroke_width: 2
     show:
@@ -25,7 +25,7 @@ series:
       return entity.attributes.data.map((entry) => {
         return [new Date(entry.datetime).getTime(), entry.prediction];
       });
-  - entity: sensor.mylocation_tide_main
+  - entity: sensor.home_tide_response
     name: Forecast
     stroke_width: 2
     show:
@@ -35,7 +35,7 @@ series:
       return entity.attributes.data.map((entry) => {
         return [new Date(entry.datetime).getTime(), entry.forecast];
       });
-  - entity: sensor.mylocation_tide_main
+  - entity: sensor.home_tide_response
     name: Observation
     stroke_width: 2
     show:

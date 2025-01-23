@@ -51,7 +51,7 @@ Entities can be added and removed by clicking *Options* in HA integreation view 
 ## Usage
 Use the integration as you please, but a recommended plot is the [Apexchart-card](https://github.com/RomRider/apexcharts-card) by Romrider - it is an excellent graph card for lovelace which also enables the possibility to show future values. This is necessary to display prediction- and forecast values which are stored as attributes in the main sensor. Example:
 
-![apexchart-card](img/norwegiantide_apexchart.png "apexchart-card")
+![apexchart-card](img/norwegiantide_apexchart_.png "apexchart-card")
 
 The example above was created using [Apexchart-card](https://github.com/RomRider/apexcharts-card). 
 

@@ -68,6 +68,7 @@ class NorwegianTideApiClient:
         self.next_tide = {}
         self.output_dir = output_dir
         # self.file_image = API_NAME + "_" + self.place + "_img.png"
+        self.error_count = 0
 
     def get_url(
         self,
@@ -109,7 +110,8 @@ class NorwegianTideApiClient:
             _LOGGER.error(
                 f"Unable to read API response - service may be down (try {API_ATTRIBUTION_URL})."
             )
-        return self.process_data()
+        finally:
+            return self.process_data()
 
     async def get_xml_data(self):
         try:
@@ -259,6 +261,9 @@ class NorwegianTideApiClient:
 
     def process_high_low(self, highlowdata=None):
         """Process data for high and low tides."""
+        self.error_count = self.error_count + 1
+        if self.error_count > 2:
+            raise Exception("fake error for testing")
         highlow = []
         if highlowdata is None:
             highlowdata = self.highlowdata

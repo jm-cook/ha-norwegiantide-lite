@@ -106,9 +106,9 @@ class NorwegianTideApiClient:
             self.tidedatatime = self.process_tidedatatime()
             self.highlow = self.process_high_low()
         # except AttributeError as e:
-        except:
+        except Exception as e:
             _LOGGER.error(
-                f"Unable to read API response - service may be down (try {API_ATTRIBUTION_URL})."
+                f"Unable to read API response - service may be down (try {API_ATTRIBUTION_URL}).\n{e}"
             )
         finally:
             return self.process_data()

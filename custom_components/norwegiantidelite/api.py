@@ -261,9 +261,9 @@ class NorwegianTideApiClient:
 
     def process_high_low(self, highlowdata=None):
         """Process data for high and low tides."""
-        self.error_count = self.error_count + 1
-        if self.error_count > 2:
-            raise Exception("fake error for testing")
+        #self.error_count = self.error_count + 1
+        #if self.error_count > 2:
+        #    raise Exception("fake error for testing")
         highlow = []
         if highlowdata is None:
             highlowdata = self.highlowdata

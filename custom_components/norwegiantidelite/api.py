@@ -274,6 +274,7 @@ class NorwegianTideApiClient:
                 data["timefromlast"] = str(data["time"] - prevtime)
             if "time" in data:
                 prevtime = data["time"]
+
             highlow.append(data)
         _LOGGER.debug(f"process_high_low: {highlow}")
         return highlow

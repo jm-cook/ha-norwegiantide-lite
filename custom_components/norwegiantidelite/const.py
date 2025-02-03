@@ -14,7 +14,7 @@ MANUFACTURER = f"{NAME}"
 ISSUE_URL = "https://github.com/jm-cook/ha-norwegiantide-lite/issues"
 
 # Platforms
-PLATFORMS = list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR, Platform.SWITCH]
+PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR, Platform.SWITCH]
 
 # Configuration and options
 CONF_ENABLED = "enabled"

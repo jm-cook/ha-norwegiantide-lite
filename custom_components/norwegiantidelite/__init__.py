@@ -20,9 +20,7 @@ from homeassistant.helpers.typing import ConfigType
 
 from .api import NorwegianTideApiClient
 from .entity import convert_units_funcs
-from .binary_sensor import NorwegianTideBinarySensor
 from .sensor import NorwegianTideSensor
-from .switch import NorwegianTideSwitch
 
 # from config.custom_components.norwegiantide.camera import NorwegianTideCam
 from .const import (

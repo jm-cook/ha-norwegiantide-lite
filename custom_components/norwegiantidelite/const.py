@@ -1,6 +1,6 @@
 """Constants for NorwegianTide."""
 from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
-from homeassistant.const import UnitOfTime, UnitOfLength
+from homeassistant.const import UnitOfTime, UnitOfLength, Platform
 
 # from .api import CONST_DIR_DEFAULT
 
@@ -8,16 +8,13 @@ from homeassistant.const import UnitOfTime, UnitOfLength
 NAME = "Norwegian Tide Lite"
 DOMAIN = "norwegiantidelite"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.1.3"
+VERSION = "0.1.4"
 ATTRIBUTION = "Data from ©Kartverket (www.kartverket.no)"
 MANUFACTURER = f"{NAME}"
 ISSUE_URL = "https://github.com/jm-cook/ha-norwegiantide-lite/issues"
 
 # Platforms
-BINARY_SENSOR = "binary_sensor"
-SENSOR = "sensor"
-SWITCH = "switch"
-PLATFORMS = [BINARY_SENSOR, SENSOR, SWITCH]
+PLATFORMS = list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR, Platform.SWITCH]
 
 # Configuration and options
 CONF_ENABLED = "enabled"
@@ -71,53 +68,6 @@ ENTITIES = {
         "icon": "mdi:wave",
         "state_func": None,
     },
-    # "tide_ebbing": {
-    #     "type": "binary_sensor",
-    #     "key": "ebb_flow",
-    #     "attrs": [
-    #         "ebb_flow",
-    #         "next_tide_time",
-    #     ],
-    #     "units": None,
-    #     "convert_units_func": None,
-    #     "device_class": None,
-    #     "icon": "mdi:arrow-expand-down",
-    #     "state_func": lambda ebb_flow: ebb_flow == TIDE_EBB,
-    # },
-    # "tide_flowing": {
-    #     "type": "binary_sensor",
-    #     "key": "ebb_flow",
-    #     "attrs": [
-    #         "ebb_flow",
-    #         "next_tide_time",
-    #     ],
-    #     "units": None,
-    #     "convert_units_func": None,
-    #     "device_class": None,
-    #     "icon": "mdi:arrow-expand-up",
-    #     "state_func": lambda ebb_flow: ebb_flow == TIDE_FLOW,
-    # },
-    # "tide_ebb_flow": {
-    #     "type": "sensor",
-    #     "key": "ebb_flow",
-    #     "attrs": ["next_tide_time"],
-    #     "units": None,
-    #     "convert_units_func": None,
-    #     "device_class": None,
-    #     "icon": "mdi:wave",
-    # },
-    # "tide_next": {
-    #     "type": "sensor",
-    #     "key": "next_tide.time",
-    #     "attrs": [
-    #         "next_tide",
-    #         "highlow",
-    #     ],
-    #     "units": None,
-    #     "convert_units_func": "",
-    #     "device_class": SensorDeviceClass.TIMESTAMP,
-    #     "icon": "mdi:wave",
-    # },
     "tide_next_low": {
         "type": "sensor",
         "key": "next_tide_low.time",

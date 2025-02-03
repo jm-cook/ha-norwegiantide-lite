@@ -9,7 +9,6 @@ import json
 from datetime import timedelta, datetime
 from decimal import Decimal
 from typing import Optional
-
 import pytz
 import aiohttp
 # import matplotlib.pyplot as plt
@@ -18,13 +17,13 @@ import numpy as np
 import datetime as dt
 import os, sys
 
+from .const import VERSION, DOMAIN, ATTRIBUTION
+
+
 DEFAULT_TIME_ZONE: dt.tzinfo = pytz.timezone("Europe/Oslo")
 TIMEOUT = 30  # seconds
-API_ATTRIBUTION = "Data from ©Kartverket (www.kartverket.no)"
 API_ATTRIBUTION_URL = "https://sehavniva.no/"
-API_NAME = "norwegiantidelite"
-VERSION = "0.1.3"
-API_USER_AGENT = f"{API_NAME}/{VERSION} https://github.com/jm-cook/ha-norwegiantide-lite"
+API_USER_AGENT = f"{DOMAIN}/{VERSION} https://github.com/jm-cook/ha-norwegiantide-lite"
 API_PREDICTION = "prediction"
 API_OBSERVATION = "observation"
 API_FORECAST = "forecast"
@@ -67,7 +66,7 @@ class NorwegianTideApiClient:
         self.tidedatatime = {}
         self.next_tide = {}
         self.output_dir = output_dir
-        # self.file_image = API_NAME + "_" + self.place + "_img.png"
+        # self.file_image = DOMAIN + "_" + self.place + "_img.png"
         self.error_count = 0
 
     def get_url(
@@ -114,12 +113,14 @@ class NorwegianTideApiClient:
             return self.process_data()
 
     async def get_xml_data(self):
+        self.error_count = self.error_count + 1
         try:
             # Get prediction, observation and forecast
             headers = {"User-Agent": API_USER_AGENT}
             response = await self.api_wrapper(
                 "get", self.get_url(datatype="all"), headers=headers
             )
+
             content = await response.text()
             self.locationdata = self.xml_location(content)
             self.tidedata = self.xml_tidedata(content)
@@ -130,7 +131,7 @@ class NorwegianTideApiClient:
             self.highlowdata = self.xml_high_low(content)
         # except AttributeError as e:
         except Exception as e:
-            _LOGGER.debug(
+            _LOGGER.error(
                 f"Unable to decode xml possibly due to previous error getting data. {e}"
             )
 
@@ -256,26 +257,25 @@ class NorwegianTideApiClient:
             )
             location.pop("name", None)
             location.pop("code", None)
-
+        _LOGGER.debug(f"process_location: {location}")
         return location
 
     def process_high_low(self, highlowdata=None):
         """Process data for high and low tides."""
-        #self.error_count = self.error_count + 1
-        #if self.error_count > 2:
-        #    raise Exception("fake error for testing")
         highlow = []
         if highlowdata is None:
             highlowdata = self.highlowdata
 
         prevtime = None
         for data in highlowdata:
-            if data.get("time", None) is not None:
+            if "time" in data:
                 data["time"] = dt_parse_datetime(data.get("time"))
             if prevtime is not None:
                 data["timefromlast"] = str(data["time"] - prevtime)
-            prevtime = data["time"]
+            if "time" in data:
+                prevtime = data["time"]
             highlow.append(data)
+        _LOGGER.debug(f"process_high_low: {len(highlow)}")
         return highlow
 
     def process_tidedatatime(self, tidedata=None):
@@ -613,7 +613,7 @@ def dt_strftime(dt_dt: dt.datetime, format=API_STRINGTIME) -> Optional[str]:
 
 def parse_arguments():
     """Argument parser for running API separately."""
-    parser = argparse.ArgumentParser(description=f"{API_NAME}: {API_ATTRIBUTION}")
+    parser = argparse.ArgumentParser(description=f"{DOMAIN}: {ATTRIBUTION}")
     parser.add_argument(
         "-lat", "--latitude", help="Latitude", required=True, type=float
     )

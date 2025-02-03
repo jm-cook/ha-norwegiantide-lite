@@ -3,7 +3,7 @@ import logging
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
 
-from .const import BINARY_SENSOR, DOMAIN
+from .const import DOMAIN
 from .entity import NorwegianTideEntity
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)

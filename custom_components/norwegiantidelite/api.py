@@ -275,7 +275,7 @@ class NorwegianTideApiClient:
             if "time" in data:
                 prevtime = data["time"]
             highlow.append(data)
-        _LOGGER.debug(f"process_high_low: {len(highlow)}")
+        _LOGGER.debug(f"process_high_low: {highlow}")
         return highlow
 
     def process_tidedatatime(self, tidedata=None):

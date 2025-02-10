@@ -9,7 +9,7 @@ matplotlib to be installed and this fails with Raspberry Pi installations of Hom
 is quite different from the original, though the original author [tmjo] has done much of the "heavy lifting" to make this
 integration work. The Norwegian Tide integration is slimmed down to remove some of the sensors and functionality that can
 be provided by Home Assistant through templating. The full forecast is also not provided as part of the sensor entity anymore
-but is available through a weather forcast style of service. This contributes to a reduction in the amount of storage required
+but is available through a weather forecast style of service. This contributes to a reduction in the amount of storage required
 for the tide state.
 
 Unfortunately the service only provides data for geographical positions in Norway - this is a limitation in the API and not in this integration.

@@ -1,11 +1,16 @@
 # Norwegian Tide Lite
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs) ![Maintenance](https://img.shields.io/maintenance/yes/2024.svg)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs) ![Maintenance](https://img.shields.io/maintenance/yes/2025.svg)
 
 This is a Home Assistant custom integration for Norwegian Tide which is interfacing an open API by the [Norwegian Mapping Authority (Kartverket)](https://kartverket.no/en/), more precisely [sehavniva.no](http://www.sehavniva.no/) which provides information about water levels and tidal predicitions and forecasts. **All data is ©[Norwegian Mapping Authority (Kartverket)](https://kartverket.no/en/)**.
 
 This light version is a fork of the code authored by [tmjo] without the camera entity included. The camera entity required
- matplotlib to be installed and this fails with Raspberry Pi installatoins of Home Assistant. 
+matplotlib to be installed and this fails with Raspberry Pi installations of Home Assistant. The version here
+is quite different from the original, though the original author [tmjo] has done much of the "heavy lifting" to make this
+integration work. The Norwegian Tide integration is slimmed down to remove some of the sensors and functionality that can
+be provided by Home Assistant through templating. The full forecast is also not provided as part of the sensor entity anymore
+but is available through a weather forcast style of service. This contributes to a reduction in the amount of storage required
+for the tide state.
 
 Unfortunately the service only provides data for geographical positions in Norway - this is a limitation in the API and not in this integration.
 
